@@ -27,6 +27,7 @@ jobs:
         working-directory: 02-second-action-react-demo
 
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Get code
