@@ -3,7 +3,7 @@ name: 02 - Deploy Project
 on:
   push:
     paths:
-      - '02-second-action-react-demo/**'
+      - '02-basic/**'
   workflow_dispatch:
 
 jobs:
@@ -20,11 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: 02-second-action-react-demo
+        working-directory: 02-basic
 
       - name: Run tests
         run: npm test
-        working-directory: 02-second-action-react-demo
+        working-directory: 02-basic
 
   deploy:
     needs: test
@@ -40,11 +40,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: 02-second-action-react-demo
+        working-directory: 02-basic
 
       - name: Build project
         run: npm run build
-        working-directory: 02-second-action-react-demo
+        working-directory: 02-basic
 
       - name: Deploy
         run: echo "Deploying project..."
