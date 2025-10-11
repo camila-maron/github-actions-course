@@ -1,4 +1,4 @@
-name: 02 Deploy Project
+name: 02 - Deploy Project
 
 on:
   push:
