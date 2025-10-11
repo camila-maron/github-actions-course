@@ -1,0 +1,49 @@
+name: 02 Deploy Project
+
+on:
+  push:
+    paths:
+      - '02-second-action-react-demo/**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: 02-second-action-react-demo
+
+      - name: Run tests
+        run: npm test
+        working-directory: 02-second-action-react-demo
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: 02-second-action-react-demo
+
+      - name: Build project
+        run: npm run build
+        working-directory: 02-second-action-react-demo
+
+      - name: Deploy
+        run: echo "Deploying project..."
