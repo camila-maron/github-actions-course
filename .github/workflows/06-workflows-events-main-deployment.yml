@@ -1,33 +1,22 @@
-name: 04 - Events Demo
+name: 06 - Events Demo
 on:
   push:
     branches:
       - main
-    paths:
-      - '04-workflows-and-events/**'
   workflow_dispatch:
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Output event data
         run: echo "${{ toJSON(github.event) }}"
-
       - name: Get code
         uses: actions/checkout@v3
-
       - name: Install dependencies
         run: npm ci
-        working-directory: 04-workflows-and-events
-
       - name: Test code
         run: npm run test
-        working-directory: 04-workflows-and-events
-
       - name: Build code
         run: npm run build
-        working-directory: 04-workflows-and-events
-
       - name: Deploy project
         run: echo "Deploying..."

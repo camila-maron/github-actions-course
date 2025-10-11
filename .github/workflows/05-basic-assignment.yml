@@ -1,7 +1,5 @@
-name: 03 - Output issue information
-
+name: 05 - Output issue information
 on: issues
-
 jobs:
   issue-info:
     runs-on: ubuntu-latest
