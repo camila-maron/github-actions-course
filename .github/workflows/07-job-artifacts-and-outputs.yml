@@ -1,4 +1,5 @@
 name: 07 - Deploy website
+
 on:
   push:
     branches:
@@ -10,17 +11,21 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v4
+
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: deps-node-modules-${{hashFiles('**/package-lock.json')}}
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install dependencies
         run: npm ci
         working-directory: 01-demo-project
+
       - name: Lint code
         run: npm run lint
         working-directory: 01-demo-project
+
       - name: Test code
         run: npm run test
         working-directory: 01-demo-project
@@ -29,25 +34,32 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     outputs:
-      script-file: ${{steps.publish.outputs.file-name}}
+      script-file: ${{ steps.publish.outputs.file-name }}
     steps:
       - name: Get code
         uses: actions/checkout@v4
+
       - name: Cache dependencies
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: deps-node-modules-${{hashFiles('**/package-lock.json')}}
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install dependencies
         run: npm ci
         working-directory: 01-demo-project
+
       - name: Build website
         run: npm run build
         working-directory: 01-demo-project
+
       - name: Publish JS filename
         id: publish
-        run: find dist/assets/*.js -type f -execdir echo 'file-name={}' >> $GITHUB_OUTPUT ';'
+        run: |
+          file=$(find dist/assets -type f -name "*.js" | head -n 1)
+          echo "file-name=$file" >> $GITHUB_OUTPUT
         working-directory: 01-demo-project
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -62,12 +74,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: dist-files
+          path: dist
+
       - name: Output contents
-        run: ls
-        working-directory: 01-demo-project/dist
+        run: ls -R dist
+
       - name: Output filename
-        run: echo "${{needs.build.outputs.script-file}}"
-        working-directory: 01-demo-project
+        run: echo "${{ needs.build.outputs.script-file }}"
+
       - name: Deploy
         run: echo "Deploying..."
-        working-directory: 01-demo-project
