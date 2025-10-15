@@ -1,34 +1,44 @@
 name: 04 - Deploy project
 on: [push, workflow_dispatch]
+
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Get code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install dependencies
         run: npm ci
+        working-directory: 01-demo-project
       - name: Run linter
         run: npm run lint
+        working-directory: 01-demo-project
+
   test:
     needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Get code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install dependencies
         run: npm ci
+        working-directory: 01-demo-project
       - name: Run tests
         run: npm test
+        working-directory: 01-demo-project
+
   deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Get code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install dependencies
         run: npm ci
+        working-directory: 01-demo-project
       - name: Build project
         run: npm run build
+        working-directory: 01-demo-project
       - name: Deploy
         run: echo "Deploying project..."
+        working-directory: 01-demo-project

@@ -1,8 +1,10 @@
 name: 05 - Output issue information
 on: issues
+
 jobs:
   issue-info:
     runs-on: ubuntu-latest
     steps:
       - name: Output issue information
         run: echo "${{ toJSON(github) }}"
+        working-directory: 01-demo-project
